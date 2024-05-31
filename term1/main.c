@@ -1,8 +1,6 @@
-#pragma warning(disable : 4996)
 #include <stdio.h>
-#include <malloc.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include <stdbool.h>
 
@@ -299,6 +297,10 @@ void Evaluation(PTime** arr, int size, Process** processes, int process_end[], i
 
 	Utilization[AID] = (cpu_end - idle) * 100 / cpu_end;
 	printf("CPU Utilization : %d%%\n", Utilization[AID]);
+
+	for (int i = 0; i < size; i++) {
+		free(arr[i]);
+	}
 }
 
 // FCFS scheduling
@@ -382,6 +384,13 @@ void FCFS(Queue* readyQueue, Queue* waitingQueue, Process** processes, int num) 
 	GanttChart(t, j);
 	Evaluation(t, j, p, process_end , IO, num, AID);
 	printf("\n");
+
+	for (int i = 0; i < num; i++) {
+		free(p[i]);
+	}
+	free(p);
+	free(process_end);
+	free(IO);
 }
 
 // find shortest job and pop
@@ -548,6 +557,13 @@ void SJF(Queue* readyQueue, Queue* waitingQueue, Process** processes, int num) {
 	GanttChart(t, j);
 	Evaluation(t, j, p, process_end, IO, num, AID);
 	printf("\n");
+
+	for (int i = 0; i < num; i++) {
+		free(p[i]);
+	}
+	free(p);
+	free(process_end);
+	free(IO);
 }
 
 //find highest priority job and pop  ***lower number higher prioriy
@@ -684,6 +700,13 @@ void Priority(Queue* readyQueue, Queue* waitingQueue, Process** processes, int n
 	GanttChart(t, j);
 	Evaluation(t, j, p, process_end, IO, num, AID);
 	printf("\n");
+
+	for (int i = 0; i < num; i++) {
+		free(p[i]);
+	}
+	free(p);
+	free(process_end);
+	free(IO);
 }
 
 // Round Robin Scheduling
@@ -777,6 +800,13 @@ void RR(Queue* readyQueue, Queue* waitingQueue, Process** processes, int num) {
 	GanttChart(t, j);
 	Evaluation(t, j, p, process_end, IO, num, AID);
 	printf("\n");
+
+	for (int i = 0; i < num; i++) {
+		free(p[i]);
+	}
+	free(p);
+	free(process_end);
+	free(IO);
 }
 
 //Preemptive SJF scheduling
@@ -891,6 +921,13 @@ void PreemptSJF(Queue* readyQueue, Queue* waitingQueue, Process** processes, int
 	GanttChart(t, j);
 	Evaluation(t, j, p, process_end, IO, num, AID);
 	printf("\n");
+
+	for (int i = 0; i < num; i++) {
+		free(p[i]);
+	}
+	free(p);
+	free(process_end);
+	free(IO);
 }
 
 // Preemptive Priority scheduling
@@ -993,6 +1030,13 @@ void PreemptPriority(Queue* readyQueue, Queue* waitingQueue, Process** processes
 	GanttChart(t, j);
 	Evaluation(t, j, p, process_end, IO, num, AID);
 	printf("\n");
+
+	for (int i = 0; i < num; i++) {
+		free(p[i]);
+	}
+	free(p);
+	free(process_end);
+	free(IO);
 }
 
 // RUN All Scheduling Algorithm, Show Evaluation Result
@@ -1155,6 +1199,10 @@ int main() {
 
 	RUN(readyQueue, waitingQueue, processes, num);
 
+	for (int i = 0; i < num; i++) {
+		free(processes[i]);
+	}
+	free(processes);
 	Free_Queue(readyQueue);
 	Free_Queue(waitingQueue);
 
