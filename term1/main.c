@@ -305,6 +305,7 @@ void Evaluation(PTime** arr, int size, Process** processes, int process_end[], i
 
 // FCFS scheduling
 void FCFS(Queue* readyQueue, Queue* waitingQueue, Process** processes, int num) {
+	printf("-FCFS Scheduling-\n\n");
 	int time = 0;
 	int i = 0;
 	Process* CPUProcess = NULL;
@@ -380,7 +381,6 @@ void FCFS(Queue* readyQueue, Queue* waitingQueue, Process** processes, int num) 
 			break;
 		}
 	}
-	printf("FCFS Scheduling\n");
 	GanttChart(t, j);
 	Evaluation(t, j, p, process_end , IO, num, AID);
 	printf("\n");
@@ -465,6 +465,7 @@ Process* SJFAging(Queue* queue) {
 
 // SJF scheduling
 void SJF(Queue* readyQueue, Queue* waitingQueue, Process** processes, int num) {
+	printf("-SJF Scheduling-\n\n");
 	int time = 0;
 	int i = 0;
 	Process* CPUProcess = NULL;
@@ -553,7 +554,6 @@ void SJF(Queue* readyQueue, Queue* waitingQueue, Process** processes, int num) {
 			break;
 		}
 	}
-	printf("SJF Scheduling\n");
 	GanttChart(t, j);
 	Evaluation(t, j, p, process_end, IO, num, AID);
 	printf("\n");
@@ -619,6 +619,7 @@ void PrirorityAging(Queue* queue) {
 
 // Priority scheduling
 void Priority(Queue* readyQueue, Queue* waitingQueue, Process** processes, int num) {
+	printf("-Priority Scheduling-\n\n");
 	int time = 0;
 	int i = 0;
 	Process* CPUProcess = NULL;
@@ -696,7 +697,6 @@ void Priority(Queue* readyQueue, Queue* waitingQueue, Process** processes, int n
 			break;
 		}
 	}
-	printf("Priority Scheduling\n");
 	GanttChart(t, j);
 	Evaluation(t, j, p, process_end, IO, num, AID);
 	printf("\n");
@@ -711,6 +711,7 @@ void Priority(Queue* readyQueue, Queue* waitingQueue, Process** processes, int n
 
 // Round Robin Scheduling
 void RR(Queue* readyQueue, Queue* waitingQueue, Process** processes, int num) {
+	printf("-RR Scheduling-\n\n");
 	int time = 0;
 	int time_quantum = 10; //can change
 	int process_time = 0;
@@ -796,7 +797,6 @@ void RR(Queue* readyQueue, Queue* waitingQueue, Process** processes, int num) {
 			break;
 		}
 	}
-	printf("RR Scheduling\n");
 	GanttChart(t, j);
 	Evaluation(t, j, p, process_end, IO, num, AID);
 	printf("\n");
@@ -811,6 +811,7 @@ void RR(Queue* readyQueue, Queue* waitingQueue, Process** processes, int num) {
 
 //Preemptive SJF scheduling
 void PreemptSJF(Queue* readyQueue, Queue* waitingQueue, Process** processes, int num) {
+	printf("-Preemptive SJF Scheduling-\n\n");
 	int time = 0;
 	int i = 0;
 	Process* CPUProcess = NULL;
@@ -917,7 +918,6 @@ void PreemptSJF(Queue* readyQueue, Queue* waitingQueue, Process** processes, int
 			break;
 		}
 	}
-	printf("Preemptive SJF Scheduling\n");
 	GanttChart(t, j);
 	Evaluation(t, j, p, process_end, IO, num, AID);
 	printf("\n");
@@ -932,6 +932,7 @@ void PreemptSJF(Queue* readyQueue, Queue* waitingQueue, Process** processes, int
 
 // Preemptive Priority scheduling
 void PreemptPriority(Queue* readyQueue, Queue* waitingQueue, Process** processes, int num) {
+	printf("-Preemptive Priority Scheduling-\n\n");
 	int time = 0;
 	int i = 0;
 	Process* CPUProcess = NULL;
@@ -1026,7 +1027,6 @@ void PreemptPriority(Queue* readyQueue, Queue* waitingQueue, Process** processes
 			break;
 		}
 	}
-	printf("Preemptive Priority Scheduling\n");
 	GanttChart(t, j);
 	Evaluation(t, j, p, process_end, IO, num, AID);
 	printf("\n");
