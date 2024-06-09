@@ -314,6 +314,7 @@ void FCFS(Queue* readyQueue, Queue* waitingQueue, Process** processes, int num) 
 	PTime* t[1000] = { 0, };
 	int *process_end = (int*)malloc(sizeof(int) * num);
 	int* IO = (int*)malloc(sizeof(int) * num);
+	int* wait_in = (int*)malloc(sizeof(int) * num);
 	int start = 0;
 	int j = 0;
 	int AID = 0; // algorithm id
@@ -337,12 +338,16 @@ void FCFS(Queue* readyQueue, Queue* waitingQueue, Process** processes, int num) 
 		}
 		if (CPUProcess != NULL && CPUProcess->IO_Start == 0 && CPUProcess->IO_Time > 0) {
 			Enqueue(waitingQueue, CPUProcess);
+			wait_in[CPUProcess->PID] = time;
 			j = AddPTime(start, time, CPUProcess->PID, j, t);
 			CPUProcess = NULL;
 			continue;
 		}
 		if (waitingQueue->head != NULL && IOProcess == NULL) {
 			IOProcess = Dequeue(waitingQueue);
+			if (wait_in[IOProcess->PID] != 0) {
+				IO[IOProcess->PID] += time - wait_in[IOProcess->PID];
+			}
 		}
 		time++;
 
@@ -475,6 +480,7 @@ void SJF(Queue* readyQueue, Queue* waitingQueue, Process** processes, int num) {
 	PTime t[1000] = { 0, };
 	int* process_end = (int*)malloc(sizeof(int) * num);
 	int* IO = (int*)malloc(sizeof(int) * num);
+	int* wait_in = (int*)malloc(sizeof(int) * num);
 	int start = 0;
 	int j = 0;
 	int AID = 1;
@@ -498,12 +504,16 @@ void SJF(Queue* readyQueue, Queue* waitingQueue, Process** processes, int num) {
 		}
 		if (CPUProcess != NULL && CPUProcess->IO_Start == 0 && CPUProcess->IO_Time > 0) {
 			Enqueue(waitingQueue, CPUProcess);
+			wait_in[CPUProcess->PID] = time;
 			j = AddPTime(start, time, CPUProcess->PID, j, t);
 			CPUProcess = NULL;
 			continue;
 		}
 		if (waitingQueue->head != NULL && IOProcess == NULL) {
 			IOProcess = Dequeue(waitingQueue);
+			if (wait_in[IOProcess->PID] != 0) {
+				IO[IOProcess->PID] += time - wait_in[IOProcess->PID];
+			}
 		}
 		time++;
 
@@ -628,6 +638,7 @@ void Priority(Queue* readyQueue, Queue* waitingQueue, Process** processes, int n
 	PTime t[1000] = { 0, };
 	int* process_end = (int*)malloc(sizeof(int) * num);
 	int* IO = (int*)malloc(sizeof(int) * num);
+	int* wait_in = (int*)malloc(sizeof(int) * num);
 	int start = 0;
 	int j = 0;
 	int AID = 2;
@@ -651,12 +662,16 @@ void Priority(Queue* readyQueue, Queue* waitingQueue, Process** processes, int n
 		}
 		if (CPUProcess != NULL && CPUProcess->IO_Start == 0 && CPUProcess->IO_Time > 0) {
 			Enqueue(waitingQueue, CPUProcess);
+			wait_in[CPUProcess->PID] = time;
 			j = AddPTime(start, time, CPUProcess->PID, j, t);
 			CPUProcess = NULL;
 			continue;
 		}
 		if (waitingQueue->head != NULL && IOProcess == NULL) {
 			IOProcess = Dequeue(waitingQueue);
+			if (wait_in[IOProcess->PID] != 0) {
+				IO[IOProcess->PID] += time - wait_in[IOProcess->PID];
+			}
 		}
 		time++;
 		
@@ -722,6 +737,7 @@ void RR(Queue* readyQueue, Queue* waitingQueue, Process** processes, int num) {
 	PTime t[1000] = { 0, };
 	int* process_end = (int*)malloc(sizeof(int) * num);
 	int* IO = (int*)malloc(sizeof(int) * num);
+	int* wait_in = (int*)malloc(sizeof(int) * num);
 	int start = 0;
 	int j = 0;
 	int AID = 3;
@@ -745,12 +761,16 @@ void RR(Queue* readyQueue, Queue* waitingQueue, Process** processes, int num) {
 		}
 		if (CPUProcess != NULL && CPUProcess->IO_Start == 0 && CPUProcess->IO_Time > 0) {
 			Enqueue(waitingQueue, CPUProcess);
+			wait_in[CPUProcess->PID] = time;
 			j = AddPTime(start, time, CPUProcess->PID, j, t);
 			CPUProcess = NULL;
 			continue;
 		}
 		if (waitingQueue->head != NULL && IOProcess == NULL) {
 			IOProcess = Dequeue(waitingQueue);
+			if (wait_in[IOProcess->PID] != 0) {
+				IO[IOProcess->PID] += time - wait_in[IOProcess->PID];
+			}
 		}
 		time++;		
 		
@@ -823,6 +843,7 @@ void PreemptSJF(Queue* readyQueue, Queue* waitingQueue, Process** processes, int
 	PTime t[1000] = { 0, };
 	int* process_end = (int*)malloc(sizeof(int) * num);
 	int* IO = (int*)malloc(sizeof(int) * num);
+	int* wait_in = (int*)malloc(sizeof(int) * num);
 	int start = 0;
 	int j = 0;
 	int AID = 4;
@@ -862,12 +883,16 @@ void PreemptSJF(Queue* readyQueue, Queue* waitingQueue, Process** processes, int
 		}
 		if (CPUProcess != NULL && CPUProcess->IO_Start == 0 && CPUProcess->IO_Time > 0) {
 			Enqueue(waitingQueue, CPUProcess);
+			wait_in[CPUProcess->PID] = time;
 			j = AddPTime(start, time, CPUProcess->PID, j, t);
 			CPUProcess = NULL;
 			continue;
 		}
 		if (waitingQueue->head != NULL && IOProcess == NULL) {
 			IOProcess = Dequeue(waitingQueue);
+			if (wait_in[IOProcess->PID] != 0) {
+				IO[IOProcess->PID] += time - wait_in[IOProcess->PID];
+			}
 		}
 		time++;
 
@@ -908,7 +933,7 @@ void PreemptSJF(Queue* readyQueue, Queue* waitingQueue, Process** processes, int
 			CPUProcess = AgingProcess;
 			CPUProcess->Age = 0;
 			start = time;
-			printf("******Aging process %d, time: %d\n", CPUProcess->PID, time);
+			printf("***Aging process %d, time: %d***\n", CPUProcess->PID, time);
 		}
 		else if (AgingProcess != NULL) {
 			Enqueue(readyQueue, AgingProcess);
@@ -943,6 +968,7 @@ void PreemptPriority(Queue* readyQueue, Queue* waitingQueue, Process** processes
 	PTime t[1000] = { 0, };
 	int* process_end = (int*)malloc(sizeof(int) * num);
 	int* IO = (int*)malloc(sizeof(int) * num);
+	int* wait_in = (int*)malloc(sizeof(int) * num);
 	int start = 0;
 	int j = 0;
 	int AID = 5;
@@ -982,12 +1008,16 @@ void PreemptPriority(Queue* readyQueue, Queue* waitingQueue, Process** processes
 		}
 		if (CPUProcess != NULL && CPUProcess->IO_Start == 0 && CPUProcess->IO_Time > 0) {
 			Enqueue(waitingQueue, CPUProcess);
+			wait_in[CPUProcess->PID] = time;
 			j = AddPTime(start, time, CPUProcess->PID, j, t);
 			CPUProcess = NULL;
 			continue;
 		}
 		if (waitingQueue->head != NULL && IOProcess == NULL) {
 			IOProcess = Dequeue(waitingQueue);
+			if (wait_in[IOProcess->PID] != 0) {
+				IO[IOProcess->PID] += time - wait_in[IOProcess->PID];
+			}
 		}
 		time++;
 		
